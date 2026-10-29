@@ -66,13 +66,13 @@ jobs:
 
   gitleaks:
     name: Gitleaks
-    uses: lpsm-dev/reusable-workflows/.github/workflows/gitleaks.yaml@56f5dbe1a8091b2c2dea19516375689aa9d0f017
+    uses: lpsm-dev/reusable-workflows/.github/workflows/gitleaks.yaml@da5e1ebf98aee50fe198bb8c2e5fbfda5433c73e
     permissions:
       contents: read
 
   semantic-release:
     name: Semantic Release Dry Run
-    uses: lpsm-dev/reusable-workflows/.github/workflows/semantic-release.yaml@56f5dbe1a8091b2c2dea19516375689aa9d0f017
+    uses: lpsm-dev/reusable-workflows/.github/workflows/semantic-release.yaml@da5e1ebf98aee50fe198bb8c2e5fbfda5433c73e
     permissions:
       contents: write
       issues: write
