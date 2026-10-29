@@ -30,7 +30,7 @@ jobs:
     - name: Commitlint
       uses: lpsm-dev/reusable-workflows/actions/commitlint-check@56f5dbe1a8091b2c2dea19516375689aa9d0f017
     - name: Gitleaks action
-      uses: lpsm-dev/reusable-workflows/actions/gitleaks-scan@4be5a90fd7e546ee50c669fdb93f8120450bb38b
+      uses: lpsm-dev/reusable-workflows/actions/gitleaks-scan@448df7be7d80aafadc6e0db77bc577c031cd0bca
     - name: Actionlint
       uses: lpsm-dev/reusable-workflows/actions/actionlint-check@56f5dbe1a8091b2c2dea19516375689aa9d0f017
     - name: Zizmor
@@ -96,7 +96,7 @@ jobs:
         persist-credentials: false
         fetch-depth: 0
     - name: Semantic Release action
-      uses: lpsm-dev/reusable-workflows/actions/semantic-release-run@4be5a90fd7e546ee50c669fdb93f8120450bb38b
+      uses: lpsm-dev/reusable-workflows/actions/semantic-release-run@448df7be7d80aafadc6e0db77bc577c031cd0bca
       with:
         dry-run: 'true'
       env:
