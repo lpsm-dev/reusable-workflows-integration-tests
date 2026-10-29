@@ -30,7 +30,7 @@ jobs:
     - name: Commitlint
       uses: lpsm-dev/reusable-workflows/actions/commitlint-check@56f5dbe1a8091b2c2dea19516375689aa9d0f017
     - name: Gitleaks action
-      uses: lpsm-dev/reusable-workflows/actions/gitleaks-scan@4be5a90fd7e546ee50c669fdb93f8120450bb38b
+      uses: lpsm-dev/reusable-workflows/actions/gitleaks-scan@448df7be7d80aafadc6e0db77bc577c031cd0bca
     - name: Actionlint
       uses: lpsm-dev/reusable-workflows/actions/actionlint-check@56f5dbe1a8091b2c2dea19516375689aa9d0f017
     - name: Zizmor
@@ -66,13 +66,13 @@ jobs:
 
   gitleaks:
     name: Gitleaks
-    uses: lpsm-dev/reusable-workflows/.github/workflows/gitleaks.yaml@56f5dbe1a8091b2c2dea19516375689aa9d0f017
+    uses: lpsm-dev/reusable-workflows/.github/workflows/gitleaks.yaml@f8622eb2d1dc703f1cfdb456b2459e838e87c461
     permissions:
       contents: read
 
   semantic-release:
     name: Semantic Release Dry Run
-    uses: lpsm-dev/reusable-workflows/.github/workflows/semantic-release.yaml@56f5dbe1a8091b2c2dea19516375689aa9d0f017
+    uses: lpsm-dev/reusable-workflows/.github/workflows/semantic-release.yaml@f8622eb2d1dc703f1cfdb456b2459e838e87c461
     permissions:
       contents: write
       issues: write
@@ -96,7 +96,7 @@ jobs:
         persist-credentials: false
         fetch-depth: 0
     - name: Semantic Release action
-      uses: lpsm-dev/reusable-workflows/actions/semantic-release-run@4be5a90fd7e546ee50c669fdb93f8120450bb38b
+      uses: lpsm-dev/reusable-workflows/actions/semantic-release-run@448df7be7d80aafadc6e0db77bc577c031cd0bca
       with:
         dry-run: 'true'
       env:
