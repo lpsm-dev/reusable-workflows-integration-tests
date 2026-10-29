@@ -1,0 +1,79 @@
+---
+name: Reusable Workflow Consumer Tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  tool-actions:
+    name: Tool Actions
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    permissions:
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Create commit fixture
+      run: |
+        git config user.name "CI Fixture"
+        git config user.email "ci-fixture@example.invalid"
+        git commit --allow-empty -m "feat: validate commitlint"
+    - name: Commitlint
+      uses: lpsm-dev/reusable-workflows/actions/commitlint-check@4587a70017dec8a3d9589941e3645fe715396e32
+    - name: Actionlint
+      uses: lpsm-dev/reusable-workflows/actions/actionlint-check@4587a70017dec8a3d9589941e3645fe715396e32
+    - name: Zizmor
+      uses: lpsm-dev/reusable-workflows/actions/zizmor-audit@4587a70017dec8a3d9589941e3645fe715396e32
+    - name: Yamllint
+      uses: lpsm-dev/reusable-workflows/actions/yamllint-check@4587a70017dec8a3d9589941e3645fe715396e32
+      with:
+        target: fixtures/pod.yaml
+    - name: ShellCheck
+      uses: lpsm-dev/reusable-workflows/actions/shellcheck-check@4587a70017dec8a3d9589941e3645fe715396e32
+      with:
+        target: fixtures/good.sh
+    - name: Hadolint
+      uses: lpsm-dev/reusable-workflows/actions/hadolint-check@4587a70017dec8a3d9589941e3645fe715396e32
+      with:
+        target: fixtures/Dockerfile
+    - name: Kubeconform
+      uses: lpsm-dev/reusable-workflows/actions/kubeconform-validate@4587a70017dec8a3d9589941e3645fe715396e32
+      with:
+        target: fixtures/pod.yaml
+        kubernetes-version: 1.29.0
+        schema-path: fixtures/pod-v1.json
+    - name: Trivy filesystem
+      uses: lpsm-dev/reusable-workflows/actions/trivy-scan@4587a70017dec8a3d9589941e3645fe715396e32
+      with:
+        scan-type: fs
+        target: fixtures/dependencies
+    - name: Trivy image
+      uses: lpsm-dev/reusable-workflows/actions/trivy-scan@4587a70017dec8a3d9589941e3645fe715396e32
+      with:
+        scan-type: image
+        target: docker.io/library/alpine@sha256:ff7f0c727dd796aa36787bfcd9a64bf35a6ce72a73451b3359fde849b6703d63
+
+  gitleaks:
+    name: Gitleaks
+    uses: lpsm-dev/reusable-workflows/.github/workflows/gitleaks.yaml@4587a70017dec8a3d9589941e3645fe715396e32
+    permissions:
+      contents: read
+
+  semantic-release:
+    name: Semantic Release Dry Run
+    uses: lpsm-dev/reusable-workflows/.github/workflows/semantic-release.yaml@4587a70017dec8a3d9589941e3645fe715396e32
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    with:
+      dry-run: true
