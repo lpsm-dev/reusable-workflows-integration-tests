@@ -29,6 +29,8 @@ jobs:
         git commit --allow-empty -m "feat: validate commitlint"
     - name: Commitlint
       uses: lpsm-dev/reusable-workflows/actions/commitlint-check@56f5dbe1a8091b2c2dea19516375689aa9d0f017
+    - name: Gitleaks action
+      uses: lpsm-dev/reusable-workflows/actions/gitleaks-scan@4be5a90fd7e546ee50c669fdb93f8120450bb38b
     - name: Actionlint
       uses: lpsm-dev/reusable-workflows/actions/actionlint-check@56f5dbe1a8091b2c2dea19516375689aa9d0f017
     - name: Zizmor
@@ -77,3 +79,25 @@ jobs:
       pull-requests: write
     with:
       dry-run: true
+
+  semantic-release-action:
+    name: Semantic Release Action Dry Run
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Semantic Release action
+      uses: lpsm-dev/reusable-workflows/actions/semantic-release-run@4be5a90fd7e546ee50c669fdb93f8120450bb38b
+      with:
+        dry-run: 'true'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
